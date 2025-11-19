@@ -1,0 +1,53 @@
+.container {
+  max-width: 700px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.tone {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.tone-name {
+  font-weight: 600;
+}
+
+.tone-code {
+  color: #888;
+  margin: 0 10px;
+  font-size: 0.9em;
+}
+
+.qty-input {
+  width: 60px;
+  padding: 3px;
+  text-align: center;
+}
+
+.btn {
+  background: #0b5fff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn.back {
+  background: #ccc;
+  color: #000;
+}
+
+.status {
+  margin-top: 10px;
+  color: #007a0b;
+  font-weight: 600;
+}

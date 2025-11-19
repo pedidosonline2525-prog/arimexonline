@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selección de Coloración</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 0;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      width: 90%;
+      max-width: 700px;
+      animation: fadeIn 0.4s ease;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #666;
+      margin-top: 0;
+    }
+
+    #tonos-container {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+      max-height: 420px;
+      overflow-y: auto;
+    }
+
+    .tono-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px solid #f1f1f1;
+    }
+
+    .tono-item span {
+      flex: 1;
+    }
+
+    .tono-item input {
+      width: 80px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .btns {
+      margin-top: 25px;
+      display: flex;
+      gap: 15px;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .btn.cancelar {
+      background-color: #bbb;
+    }
+
+    .btn.cancelar:hover {
+      background-color: #999;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎨 Selección de Coloración</h1>
+    <p>Elija los tonos deseados para la marca seleccionada.</p>
+
+    <div id="tonos-container">Cargando tonos disponibles...</div>
+
+    <div class="btns">
+    <button type="button" class="btn" id="guardarColor">💾 Guardar y volver</button>
+    <button type="button" class="btn cancelar" id="cancelarColor">↩️ Cancelar</button>
+    </div>
+  </div>
+
+  <script src="coloracion.js"></script>
+</body>
+</html>
+

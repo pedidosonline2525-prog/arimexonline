@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pedidos - Seleccione la marca</title>
+  <style>
+    body {
+      background: #f9fafc;
+      color: #222;
+      font-family: Inter, system-ui, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .brands {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      width: 100%;
+      max-width: 900px;
+    }
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px;
+      text-decoration: none;
+      color: #111;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .brand:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    }
+    .brand img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 16px;
+    }
+    .brand span {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    footer {
+      margin-top: 50px;
+      color: #888;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Seleccione la marca para realizar su pedido</h1>
+  <p class="subtitle">Cada marca tiene su catálogo y formulario de pedidos independiente.</p>
+  <h2>Los descuentos y promociones seran aplicados en el proceso de facturacion.</h2>
+
+  <div class="brands">
+    <a href="wella/index.html" class="brand">
+      <img src="logos/wellalogo.png" alt="WELLA" />
+      <span>WELLA</span>
+    </a>
+
+    <a href="sow/index.html" class="brand">
+      <img src="logos/sowlogo.png" alt="SOW" />
+      <span>SOW</span>
+    </a>
+
+    <a href="zita/index.html" class="brand">
+      <img src="logos/zitalogo.png" alt="ZITA" />
+      <span>ZITA</span>
+    </a>
+
+    <a href="eol/index.html" class="brand">
+      <img src="logos/eollogo.png" alt="EOL" />
+      <span>EOL</span>
+    </a>
+  </div>
+
+  <footer>
+    Formulario de pedidos online • - Asesor comercial
+   <h2>Comunicarse al 11-6582-4520 por consultas, listas de precios con promociones o aperturas de cuenta.</h2>
+  </footer>
+</body>
+</html>

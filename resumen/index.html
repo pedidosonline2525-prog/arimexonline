@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resumen del Pedido</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 0;
+    }
+    .card {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      width: 90%;
+      max-width: 900px;
+      animation: fadeIn 0.4s ease;
+    }
+    h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    p { color: #444; }
+    label { font-weight: 600; }
+    input, textarea {
+      width: 100%; padding: 8px;
+      border-radius: 6px; border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    textarea { resize: none; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 6px;
+      text-align: left;
+    }
+    th { background-color: #007bff; color: white; }
+    .btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn:hover { background-color: #0056b3; }
+    #status { text-align: center; margin-top: 15px; font-weight: 500; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>🧾 Resumen del Pedido</h1>
+    <p>Revisá tu pedido y completá tus datos antes de enviarlo.</p>
+
+    <div id="resumen" class="pedido-resumen">
+      <p>Cargando pedido...</p>
+    </div>
+
+    <form id="pedidoForm" action="https://formspree.io/f/xpwkzwoy" method="POST">
+      <label>Nombre y apellido / Razon Social *</label>
+      <input id="client_name" name="Nombre" type="text" required />
+
+      <label>Teléfono *</label>
+      <input id="client_phone" name="Teléfono" type="tel" required />
+
+      <label>Email (opcional)</label>
+      <input id="client_email" name="Email" type="email" />
+
+      <label>Dirección (opcional)</label>
+      <input id="client_address" name="Dirección" type="text" />
+
+      <label>Comentario (opcional)</label>
+      <textarea id="comentario" name="Comentario" placeholder="Podés agregar una nota o instrucción..."></textarea>
+
+      <input type="hidden" id="pedidoTexto" name="Pedido" />
+      <input type="hidden" id="ccEmail" name="_cc" />
+      <input type="hidden" name="_subject" value="🧾 Nuevo pedido desde Arimex" />
+      <input type="hidden" name="_next" value="https://pedidosarimex.netlify.app/gracias.html" />
+
+      <div style="display:flex; justify-content:space-between; margin-top:15px;">
+        <button type="button" class="btn" id="volverBtn">⬅️ Volver</button>
+        <button type="submit" class="btn" id="sendBtn">📤 Enviar pedido</button>
+      </div>
+    </form>
+
+    <div id="status"></div>
+  </div>
+<script>
+  // Botón volver
+  document.getElementById("volverBtn").addEventListener("click", () => {
+    window.history.back();
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const resumenEl = document.getElementById("resumen");
+    const pedidoHidden = document.getElementById("pedidoTexto");
+    const ccInput = document.getElementById("ccEmail");
+    const form = document.getElementById("pedidoForm");
+    const items = JSON.parse(localStorage.getItem("pedidoGlobal") || "[]");
+
+    if (!items.length) {
+      resumenEl.innerHTML = "<p>No hay productos seleccionados.</p>";
+      return;
+    }
+
+    // Agrupar por marca
+    const grupos = {};
+    items.forEach(it => {
+      if (!grupos[it.Marca]) grupos[it.Marca] = [];
+      grupos[it.Marca].push(it);
+    });
+
+    // Construir tabla HTML
+    let tablaHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Marca</th>
+            <th>Tipo</th>
+            <th>Producto / Color</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    let pedidoTexto = "";
+
+    for (const marca in grupos) {
+      const productos = grupos[marca];
+
+      productos.forEach(it => {
+        if (it.Familia !== "Coloración" && !Array.isArray(it.Detalle)) {
+          const tipo = "Producto";
+          tablaHTML += `
+            <tr>
+              <td>${marca}</td>
+              <td>${tipo}</td>
+              <td>${it.Nombre || ""} ${it.Cont || ""}</td>
+              <td>${it.Cantidad || 0}</td>
+            </tr>
+          `;
+          pedidoTexto += `${marca} - ${it.Nombre || ""} ${it.Cont || ""} x ${it.Cantidad || 0}\n`;
+        } else if (it.Familia === "Coloración" && Array.isArray(it.Detalle)) {
+          it.Detalle.forEach(d => {
+            tablaHTML += `
+              <tr>
+                <td>${marca}</td>
+                <td>Coloración</td>
+                <td>${d.Tono || "Tono"}</td>
+                <td>${d.Cantidad || 0}</td>
+              </tr>
+            `;
+            pedidoTexto += `${marca} - ${d.Tono || "Tono"} x ${d.Cantidad || 0}\n`;
+          });
+        }
+      });
+    }
+
+    tablaHTML += "</tbody></table>";
+    resumenEl.innerHTML = tablaHTML;
+    pedidoHidden.value = pedidoTexto.trim();
+
+    // ✅ Si el cliente completa su email, enviar copia (_cc)
+    const emailInput = document.getElementById("client_email");
+    if (emailInput) {
+      emailInput.addEventListener("input", () => {
+        ccInput.value = emailInput.value.trim();
+      });
+    }
+
+    // ✅ Mostrar mensaje tipo "gracias" al enviar
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: data,
+          headers: { Accept: "application/json" }
+        });
+
+        if (res.ok) {
+          localStorage.removeItem("pedidoGlobal");
+          document.body.innerHTML = `
+            <div style="
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              height:100vh;
+              background:#f8f9fa;
+              font-family:'Poppins',sans-serif;
+            ">
+              <div style="
+                background:#fff;
+                padding:40px;
+                border-radius:16px;
+                box-shadow:0 8px 24px rgba(15,23,42,0.1);
+                max-width:500px;
+                text-align:center;
+              ">
+                <h1 style="color:#0b5ed7;font-size:1.8rem;margin-bottom:10px;">
+                  ✅ ¡Pedido enviado con éxito!
+                </h1>
+                <p style="color:#333;margin-bottom:30px;">
+                  Tu pedido fue recibido correctamente.<br>
+                  Pronto nos pondremos en contacto para confirmar la entrega.
+                </p>
+                <a href="../index.html" style="
+                  display:inline-block;
+                  background:#0b5ed7;
+                  color:white;
+                  text-decoration:none;
+                  padding:10px 20px;
+                  border-radius:8px;
+                  font-weight:500;
+                ">🏠 Volver al inicio</a>
+              </div>
+            </div>
+          `;
+        } else {
+          alert("❌ Error al enviar el pedido. Intentalo nuevamente.");
+        }
+      } catch {
+        alert("❌ Error de conexión. Verificá tu red.");
+      }
+    });
+  });
+</script>
+
+
+
+  </body>
+</html>
+
