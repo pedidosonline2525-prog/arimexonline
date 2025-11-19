@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     bloque.innerHTML = `<h2>${marca}</h2>`;
 
     grupos[marca].forEach(it => {
-      // 🎨 Coloración con detalle
+
+      // 🎨 Coloración
       if (it.Familia === "Coloración" && Array.isArray(it.Detalle) && it.Detalle.length > 0) {
         const contenedorColor = document.createElement("div");
         contenedorColor.className = "coloracion-bloque";
@@ -68,10 +69,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   hiddenInput.value = pedidoTexto.trim();
 
-  // Copia al cliente
+  // === 🔥 MODIFICACIÓN IMPORTANTE: asunto personalizado ===
+  // Crear asunto dinámico ANTES del envío
+form.addEventListener("submit", () => {
+  const nombreCliente = document.getElementById("client_name").value.trim();
+  const emailCliente = document.getElementById("client_email").value.trim();
+
+  if (emailCliente) ccInput.value = emailCliente;
+
+  // Número de pedido único
+  const idPedido = Math.floor(10000 + Math.random() * 90000);
+
+  // Asunto final dinámico
+  document.getElementById("subjectField").value =
+    `PEDIDO – ${nombreCliente || "Cliente"} – #${idPedido}`;
+});
   form.addEventListener("submit", e => {
     const emailCliente = document.getElementById("client_email").value.trim();
+    const nombreCliente = document.getElementById("client_name").value.trim();
+
     if (emailCliente) ccField.value = emailCliente;
+
+    // Número aleatorio de pedido
+    const idPedido = Math.floor(10000 + Math.random() * 90000);
+
+    // Cambiar el asunto dinámicamente
+    const subjectField = form.querySelector('input[name="_subject"]');
+    if (subjectField) {
+      subjectField.value = `PEDIDO – ${nombreCliente || "Cliente"} – #${idPedido}`;
+    }
+
     setTimeout(() => localStorage.removeItem("pedidoGlobal"), 2000);
   });
 
@@ -89,4 +116,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
