@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (pedidoPrev.length) marca = pedidoPrev[pedidoPrev.length - 1].Marca || "";
     }
 
-    if (!marca) marca = "WELLA";
+    if (!marca) marca = "wella";
 
     const archivo = `/${marca}/coloracion.xlsx`;
     let tonos = [];
