@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!marca) marca = "WELLA";
 
-    const archivo = `./${marca}/coloracion.xlsx`;
+    const archivo = `../${marca}/coloracion.xlsx`;
     let tonos = [];
 
     // ------------------------------------------
