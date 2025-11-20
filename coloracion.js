@@ -50,11 +50,52 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ------------------------------------------
     contenedor.innerHTML = "";
 
-    tonos.forEach((t, i) => {
-        const nombre = (t.Nombre || t.Color || t.Tono || `Tono ${i + 1}`).trim();
+    // ------------------------------------------
+// 3) Renderizar interfaz (agrupado por LÍNEA)
+// ------------------------------------------
+contenedor.innerHTML = "";
+
+// Agrupar por "Linea"
+const gruposPorLinea = {};
+tonos.forEach(t => {
+    const linea = (t.Linea || t.Descripcion || "SIN LÍNEA").trim();
+    if (!gruposPorLinea[linea]) gruposPorLinea[linea] = [];
+    gruposPorLinea[linea].push(t);
+});
+
+// Crear grupos colapsables
+for (const linea in gruposPorLinea) {
+
+    // 📌 Encabezado colapsable
+    const header = document.createElement("div");
+    header.className = "linea-header";
+    header.textContent = linea;
+    header.style.cssText = `
+        font-weight: bold;
+        font-size: 18px;
+        margin: 12px 0 6px;
+        cursor: pointer;
+        padding: 6px;
+        background: #f0f0f0;
+        border-radius: 6px;
+    `;
+
+    // 📌 Contenedor interno (colapsable)
+    const body = document.createElement("div");
+    body.className = "linea-body";
+    body.style.display = "none"; // comienza cerrado
+
+    // Renderizar tonos dentro de la línea
+    gruposPorLinea[linea].forEach((t, i) => {
+        const nombre = (t.Tono || t.Nombre || t.Color || `Tono ${i + 1}`).trim();
 
         const row = document.createElement("div");
         row.className = "tono-item";
+        row.style.cssText = `
+            display: flex;
+            align-items: center;
+            margin: 4px 0;
+        `;
         row.innerHTML = `
             <span style="flex:1">${nombre}</span>
             <input type="number" min="0" value="0"
@@ -62,8 +103,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                 style="width:80px;padding:6px;border:1px solid #ccc;border-radius:6px;text-align:center" />
         `;
 
-        contenedor.appendChild(row);
+        body.appendChild(row);
     });
+
+    // Toggle colapsable
+    header.addEventListener("click", () => {
+        body.style.display = body.style.display === "none" ? "block" : "none";
+    });
+
+    // Añadir al contenedor principal
+    contenedor.appendChild(header);
+    contenedor.appendChild(body);
+}
+
 
     // ------------------------------------------
     // 4) Restaurar tonos existentes
