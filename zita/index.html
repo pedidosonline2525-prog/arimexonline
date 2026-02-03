@@ -21,48 +21,54 @@
   </style>
 </head>
 <body>
+
 <a href="../resumen/index.html" class="floating-cart" title="Ver pedido completo">
-  🧾
-  <span id="cart-count">0</span>
+  🧾 <span id="cart-count">0</span>
 </a>
 <span class="floating-label">Ver pedido completo</span>
 
-  <main class="container">
-    <div class="brand-header">
-      <img src="../logos/zitalogo.png" alt="ZITA" class="brand-logo" />
-      <h1>Pedido online - ZITA</h1>
-    </div>
+<main class="container">
 
-    <p>
-      <a href="zitacatalogo.pdf" target="_blank">📖 Ver catálogo completo (PDF)</a> |
-      <a href="../index.html">⬅️ Continuar pedido con otras marcas</a>
-    </p>
-<p><a href="../resumen/index.html">🧾 Ver resumen del pedido</a></p>
-
-    <p class="subtitle">Complete sus datos y seleccione los productos deseados.</p>
-    <p class="subtitle">Comunicarse al 11-6582-4520 por consultas o listas de precios con promociones.</p>
-<!-- BLOQUE FIJO: Coloración (botón para elegir tonos) -->
-<section class="group">
-  <h2>Coloración</h2>
-  <div class="product">
-    <span class="name">Seleccioná tonos de coloración</span>
-    <span class="cont"></span>
-    <!-- Ajustá WELLA por la marca correspondiente si lo pegas en otra carpeta -->
-    <button type="button" class="btn" onclick="window.location.href='../coloracion.html?marca=ZITA'">
-      🎨 Elegir tonos
-    </button>
-    <span class="qty coloracion-total"></span>
+  <div class="brand-header">
+    <img src="../logos/zitalogo.png" alt="ZITA" class="brand-logo" />
+    <h1>Pedido online - ZITA</h1>
   </div>
-</section>
-<!-- FIN BLOQUE FIJO -->
 
-    <section id="products"></section>
+  <p>
+    <a href="zitacatalogo.pdf" target="_blank">📖 Ver catálogo completo (PDF)</a> |
+    <a href="../index.html">⬅️ Continuar pedido con otras marcas</a>
+  </p>
 
+  <p><a href="../resumen/index.html">🧾 Ver resumen del pedido</a></p>
 
-    <div id="status" class="status" aria-live="polite"></div>
-    <footer class="foot">Formulario de pedidos ZITA</footer>
-  </main>
+  <p class="subtitle">Complete sus datos y seleccione los productos deseados.</p>
+  <p class="subtitle">Comunicarse al 11-6582-4520 por consultas o listas de precios con promociones.</p>
 
-  <script src="./script.js"></script>
+  <!-- BLOQUE FIJO: Coloración -->
+  <section class="group">
+    <h2>Coloración</h2>
+    <div class="product">
+      <span class="name">Seleccioná tonos de coloración</span>
+      <span class="cont"></span>
+
+      <!-- ⬇⬇⬇ CAMBIO SEGURO (sin JS inline) -->
+      <a href="../coloracion.html?marca=ZITA" class="btn" 
+         style="display:inline-block;text-align:center;">
+        🎨 Elegir tonos
+      </a>
+      <!-- ⬆⬆⬆ -->
+      
+      <span class="qty coloracion-total"></span>
+    </div>
+  </section>
+
+  <section id="products"></section>
+
+  <div id="status" class="status" aria-live="polite"></div>
+  <footer class="foot">Formulario de pedidos ZITA</footer>
+
+</main>
+
+<script src="./script.js"></script>
 </body>
 </html>
